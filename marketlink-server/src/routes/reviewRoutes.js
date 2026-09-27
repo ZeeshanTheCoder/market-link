@@ -1,0 +1,12 @@
+import { Router } from "express";
+import {createReview,listProductReviews,listFarmerReviews,updateReview,deleteReview,replyReview,listAllReviews} from "../controllers/reviewController.js";
+import {protect,authorize} from "../middleware/authMiddleware.js";
+const router=Router();
+router.post("/",protect,authorize("customer"),createReview);
+router.get("/product/:productId",listProductReviews);
+router.get("/farmer/:farmerId",listFarmerReviews);
+router.get("/admin",protect,authorize("admin"),listAllReviews);
+router.put("/:id",protect,authorize("customer"),updateReview);
+router.delete("/:id",protect,authorize("customer","admin"),deleteReview);
+router.patch("/:id/reply",protect,authorize("farmer","admin"),replyReview);
+export default router;

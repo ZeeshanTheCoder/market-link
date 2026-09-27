@@ -1,0 +1,10 @@
+import { Router } from "express";
+import {listAvailableSlots,farmerSlots,createSlot,updateSlot,deleteSlot} from "../controllers/pickupSlotController.js";
+import {protect,authorize} from "../middleware/authMiddleware.js";
+const router=Router();
+router.get("/",listAvailableSlots);
+router.get("/farmer",protect,authorize("farmer"),farmerSlots);
+router.post("/",protect,authorize("farmer"),createSlot);
+router.put("/:id",protect,authorize("farmer"),updateSlot);
+router.delete("/:id",protect,authorize("farmer"),deleteSlot);
+export default router;

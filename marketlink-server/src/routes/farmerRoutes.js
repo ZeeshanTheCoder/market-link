@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { listFarmers,getFarmer,getFarmerProducts,updateProfile,getDashboard } from "../controllers/farmerController.js";
+import { protect, authorize } from "../middleware/authMiddleware.js";
+const router=Router();
+router.get("/", listFarmers);
+router.get("/:id/products", getFarmerProducts);
+router.get("/:id", getFarmer);
+router.get("/me/dashboard", protect, authorize("farmer"), getDashboard);
+router.put("/profile", protect, authorize("farmer"), updateProfile);
+export default router;

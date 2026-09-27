@@ -1,0 +1,16 @@
+import { Router } from "express";
+import { createOrder,myOrders,getOrder,updateCustomerOrder,cancelOrder,farmerOrders,acceptOrder,declineOrder,readyOrder,completeOrder,customerDashboard } from "../controllers/orderController.js";
+import { protect,authorize } from "../middleware/authMiddleware.js";
+const router=Router();
+router.post("/",protect,authorize("customer"),createOrder);
+router.get("/my-orders",protect,authorize("customer"),myOrders);
+router.get("/farmer",protect,authorize("farmer"),farmerOrders);
+router.get("/:id",protect,getOrder);
+router.put("/:id",protect,authorize("customer"),updateCustomerOrder);
+router.patch("/:id/cancel",protect,authorize("customer","farmer"),cancelOrder);
+router.patch("/:id/accept",protect,authorize("farmer"),acceptOrder);
+router.patch("/:id/decline",protect,authorize("farmer"),declineOrder);
+router.patch("/:id/ready",protect,authorize("farmer"),readyOrder);
+router.patch("/:id/complete",protect,authorize("farmer","admin"),completeOrder);
+router.get("/dashboard/customer",protect,authorize("customer"),customerDashboard);
+export default router;

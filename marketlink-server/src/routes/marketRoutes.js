@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { listMarkets,getMarket,createMarket,updateMarket,deleteMarket } from "../controllers/marketController.js";
+import { protect, authorize } from "../middleware/authMiddleware.js";
+const router=Router();
+router.get("/", listMarkets);
+router.get("/:id", getMarket);
+router.post("/", protect, authorize("admin"), createMarket);
+router.put("/:id", protect, authorize("admin"), updateMarket);
+router.delete("/:id", protect, authorize("admin"), deleteMarket);
+export default router;
