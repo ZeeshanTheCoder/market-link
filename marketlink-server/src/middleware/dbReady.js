@@ -1,15 +1,19 @@
-import mongoose from "mongoose";
-import AppError from "../utils/AppError";
+import AppError from "../utils/AppError.js";
+import connectDB from "../config/db.js";
 
-export function requireDb(req, res, next) {
-  if (mongoose.connection.readyState !== 1) {
-    return next(
+export async function requireDb(req, res, next) {
+  try {
+    await connectDB();
+
+    next();
+  } catch (error) {
+    console.error("Database connection error:", error);
+
+    next(
       new AppError(
-        "Database is not connected. Add a valid MONGO_URI and ensure MongoDB Atlas is reachable.",
+        "Database connection failed. Please check MongoDB Atlas and MONGO_URI.",
         503
       )
     );
   }
-
-  next();
 }

@@ -9,31 +9,24 @@ const connectDB = async () => {
 
   // Already connected
   if (mongoose.connection.readyState === 1) {
-    return mongoose.connection;
+    return;
   }
 
-  // Connection is already in progress
+  // Already connecting
   if (mongoose.connection.readyState === 2) {
     await mongoose.connection.asPromise();
-    return mongoose.connection;
+    return;
   }
 
-  try {
-    await mongoose.connect(MONGO_URI.trim(), {
-      serverSelectionTimeoutMS: 10000,
-      connectTimeoutMS: 10000,
-      socketTimeoutMS: 20000,
-      family: 4,
-      maxPoolSize: 10,
-    });
+  await mongoose.connect(MONGO_URI.trim(), {
+    serverSelectionTimeoutMS: 10000,
+    connectTimeoutMS: 10000,
+    socketTimeoutMS: 20000,
+    family: 4,
+    maxPoolSize: 10,
+  });
 
-    console.log("MongoDB connected successfully");
-
-    return mongoose.connection;
-  } catch (error) {
-    console.error("MongoDB connection failed:", error.message);
-    throw error;
-  }
+  console.log("MongoDB connected successfully");
 };
 
 export default connectDB;
