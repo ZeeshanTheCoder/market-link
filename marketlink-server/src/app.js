@@ -28,8 +28,9 @@ const app = express();
    ========================================================= */
 
 const allowedOrigins = [
+  process.env.CLIENT_URL,
   "https://marketlink-orpin.vercel.app",
-  "http://localhost:5173"
+  "http://localhost:5173",
 ];
 
 const corsOptions = {
@@ -49,19 +50,9 @@ const corsOptions = {
 
   credentials: true,
 
-  methods: [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS"
-  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization"
-  ]
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
@@ -79,7 +70,7 @@ app.use(express.json({ limit: "1mb" }));
 app.get("/api/health", (req, res) => {
   res.json({
     message: "MarketLink API is running",
-    database: process.env.MONGO_URI ? "configured" : "missing"
+    database: process.env.MONGO_URI ? "configured" : "missing",
   });
 });
 
