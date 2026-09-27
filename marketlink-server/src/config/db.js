@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGO_URI =
-  process.env.MONGO_URI ||
-  process.env.MONGODB_URI ||
-  "mongodb://localhost:27017/marketlink";
+const MONGO_URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   // Already connected or connecting
@@ -20,9 +17,7 @@ const connectDB = async () => {
       maxPoolSize: 10,
     });
 
-    console.log(
-      `MongoDB connected successfully!!!!!!!!!`
-    );
+    console.log(`MongoDB connected successfully!!!!!!!!!`);
 
     return true;
   } catch (error) {

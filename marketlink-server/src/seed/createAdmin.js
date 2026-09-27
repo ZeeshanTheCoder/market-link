@@ -2,13 +2,17 @@ import "../config/env.js";
 import mongoose from "mongoose";
 import User from "../models/User.js";
 
-const MONGO_URI = String(process.env.MONGO_URI || "mongodb://localhost:27017/marketlink").trim();
+const MONGO_URI = process.env.MONGO_URI;
 const ADMIN_NAME = String(process.env.ADMIN_NAME || "MarketLink Admin").trim();
-const ADMIN_EMAIL = String(process.env.ADMIN_EMAIL || "admin@gmail.com").trim().toLowerCase();
+const ADMIN_EMAIL = String(process.env.ADMIN_EMAIL || "admin@gmail.com")
+  .trim()
+  .toLowerCase();
 const ADMIN_PASSWORD = String(process.env.ADMIN_PASSWORD || "admin123");
 
-if (!ADMIN_EMAIL || !ADMIN_PASSWORD) throw new Error("Admin email/password are required");
-if (ADMIN_PASSWORD.length < 8) throw new Error("ADMIN_PASSWORD must be at least 8 characters");
+if (!ADMIN_EMAIL || !ADMIN_PASSWORD)
+  throw new Error("Admin email/password are required");
+if (ADMIN_PASSWORD.length < 8)
+  throw new Error("ADMIN_PASSWORD must be at least 8 characters");
 
 try {
   await mongoose.connect(MONGO_URI, {
@@ -39,5 +43,7 @@ try {
   console.error(`Admin seed failed: ${err?.message || err}`);
   process.exitCode = 1;
 } finally {
-  try { await mongoose.disconnect(); } catch {}
+  try {
+    await mongoose.disconnect();
+  } catch {}
 }
