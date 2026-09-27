@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import AppError from "../utils/AppError";
 
 export function requireDb(req, res, next) {
   if (mongoose.connection.readyState !== 1) {
